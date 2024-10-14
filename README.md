@@ -1,7 +1,7 @@
 # Workflow for assembling sanger seuqencing data into contigs
 
 ## Introduction
-Accurate identification of infectious bacteria is a major challenge for clinical practice. The use of sequencing of the 16S ribosomal RNA (rRNA) gene as the gold standard for identification at the species level. sangeranalyseR and sangerseqR are open-source R packages for processing Sanger sequencing data. sangeranalyseR provides a wide range of options for trimming reads, detecting secondary peaks, viewing chromatograms, aligning contigs, and outputs aligned and unaligned reads and contigs in FASTA format. Input data can be in either ABIF or FASTA format. 
+Accurate identification of infectious bacteria is a major challenge for clinical practice. The use of sequencing of the 16S ribosomal RNA (rRNA) gene has emerged as the preferred method for taxonomic classification and identification of bacteria at the species level. sangeranalyseR and sangerseqR are open-source R packages for processing Sanger sequencing data sangeranalyseR and sangerseqR are open-source R packages for processing Sanger sequencing data. sangeranalyseR provides a wide range of options for trimming reads, detecting secondary peaks, viewing chromatograms, aligning contigs, and outputs aligned and unaligned reads and contigs in FASTA format. Input data can be in either ABIF or FASTA format.
 
 ## Pipeline
 1. Extracting ab1 files of the interest sequence (16S)
