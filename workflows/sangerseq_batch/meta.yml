@@ -1,0 +1,52 @@
+name: "sangerseq_batch"
+description: |
+  Assembling Sanger sequencing data into contiguous consensus reads
+keywords:
+  - rscript
+  - Sanger sequencing
+  - Sanger trace file
+  - 16S rRNA gene
+  - electropherogram
+  - alignment and contig assembly
+components:
+  - r/sangerseq
+  - r/sangerAnalyseR
+  - r/optparse
+input:
+  - sample:
+      type: val
+      description: |
+        sample name
+  - trace_files:
+      type: list
+      description: Path to input forward and reverse trace files
+      pattern: "*.ab1"
+output:
+  - sample:
+      type: val
+      description: |
+        sample name
+  - contig:
+      type: file
+      description: assembled consensus reads
+      pattern: "*.txt"
+  - fasta:
+      type: file
+      description: a text-based file that stores sequencing reads
+      pattern: "*.fa"
+  - chromatogram:
+      type: file
+      description: a two-dimensional plot with the ordinate axis giving signal strength
+      pattern: "*.pdf"
+  - metrics:
+      type: file
+      description: QC metrics
+      pattern: "*.csv"
+  - versions:
+      type: file
+      description: File containing software versions
+      pattern: "versions.yml"
+authors:
+  - "@kelseyz"
+maintainers:
+  - "@kelseyz"
