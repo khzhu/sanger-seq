@@ -1,12 +1,12 @@
 # Workflow for assembling sanger seuqencing data into contigs
 
 ## Introduction
-Accurate identification of infectious bacteria is a major challenge for clinical practice. The 16S ribosomal RNA (rRNA) gene
-seqeuencing is usually chosen as the preferred method for taxonomic classification and identification of bacteria at the species level. sangeranalyseR and sangerseqR are among many open-source tools for processing Sanger sequencing data.
+Accurate identification of infectious bacteria is a major challenge for clinical practice. The 16S ribosomal RNA (rRNA) gene seqeuencing is usually chosen as the preferred method for taxonomic classification and identification of bacteria at the species level. sangeranalyseR and sangerseqR are among many open-source tools for processing Sanger sequencing data.
 sangeranalyseR provides a wide range of options for trimming reads, detecting secondary peaks, viewing chromatograms, aligning contigs, and outputs aligned and unaligned reads and contigs in FASTA format.
 
 ## Pipeline
-In order to reconstitute the entire sequence of the 16S rRNA gene from both strands, the .ab1 files need to be assembled, i.e., an overlap needs to be established and a contiguous consensus sequence (“contig”) needs to be generated. We are here to present a nextflow pipeline that assembles Sanger sequencing data into contiguous consensus reads. It performs the following operations:
+In order to reconstitute the entire sequence of the 16S rRNA gene from both strands, the .ab1 files need to be assembled, i.e.,
+an overlap needs to be established and a contiguous consensus sequence (“contig”) needs to be generated. We are here to present a nextflow pipeline that assembles Sanger sequencing data into contiguous consensus reads. It performs the following operations on Sanger sequencing data:
 
 1. Extract ab1 files of the interest sequence (16S)
 2. Separate sense and antisense sequences in two distinct data collections

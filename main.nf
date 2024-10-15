@@ -1,7 +1,15 @@
 #!/usr/bin/env nextflow
 nextflow.enable.dsl=2
 
-import groovy.json.JsonSlurper
+//VALIDATE INPUTS
+def checkParamList = [
+    params.output_dir,
+    params.trace_path,
+    params.batch_id,
+    params.trace_regex_suffix]
+
+for (param in checkParamList) if (!param) error("Required options were not provided")
+
 include { SANGERSEQ_BATCH } from './workflows/sangerseq_batch/main'
 /*
  * pipeline input parameters
