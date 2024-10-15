@@ -2,12 +2,12 @@ name: "sangerseq_r"
 description: |
   Assembling Sanger sequencing data into contiguous consensus reads
 keywords:
-  - rscript
+  - Rscript
   - Sanger sequencing
-  - Sanger trace file
+  - Trace or ab1 file
   - 16S rRNA gene
-  - chromatogram
-  - alignment and contig assembly
+  - Chromatogram
+  - Alignment and contig assembly
 components:
   - r/sangerseq
   - r/sangerAnalyseR
@@ -19,7 +19,7 @@ input:
         sample name
   - trace_files:
       type: list
-      description: Path to input forward and reverse trace files
+      description: Path to forward and reverse trace files
       pattern: "*.ab1"
 output:
   - sample:
@@ -28,19 +28,19 @@ output:
         sample name
   - contig:
       type: file
-      description: assembled consensus reads
+      description: Assembled contiguous consensus reads
       pattern: "*.txt"
   - fasta:
       type: file
-      description: a text-based file that stores sequencing reads
+      description: Text-based files that stores sequencing reads
       pattern: "*.fa"
   - chromatogram:
       type: file
-      description: a two-dimensional plot with the ordinate axis giving signal strength
+      description: Two-dimensional plots with the ordinate axis giving signal strength
       pattern: "*.pdf"
   - metrics:
       type: file
-      description: QC metrics
+      description: Quality Control metrics
       pattern: "*.csv"
   - versions:
       type: file

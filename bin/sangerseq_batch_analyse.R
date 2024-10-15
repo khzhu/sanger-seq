@@ -1,5 +1,9 @@
 #!/usr/bin/env Rscript
 
+#' title: "Wrapper functions for SangerAnalyse in R"
+#' author: "kelseyz"
+#' date: "October 08, 2024"
+
 library(sangeranalyseR)
 library(sangerseqR)
 library(Biostrings)
@@ -19,7 +23,7 @@ option_list = list(
   make_option(c("-c", "--cutoff"), type="integer", default=0, 
               help="Cutoff quality score for trimming"),
   make_option(c("-l", "--seq_len"), type="integer", default=50, 
-              help="Minimum sequence length for consensu reads")
+              help="Minimum sequence length for consensus reads")
 ); 
 
 opt_parser = OptionParser(option_list=option_list)
@@ -45,7 +49,7 @@ get_qc_report <- function(parent_dir, sample_trace, sample_name) {
   mean_qs <- as.integer(report@rawMeanQualityScore)
   qs_tab <- as.data.frame(table(report@qualityPhredScores>20))
   # Output raw sequences to a FASTA file
-  writeFasta(sangerseq_call, #newSangerReadF
+  writeFasta(sangerseq_call,
            outputDir         = file.path("/mnt",sample_name), #tempdir(),
            compress          = FALSE,
            compression_level = NA)
@@ -151,7 +155,7 @@ call_sangerseq <- function(parent_dir, sample_trace_fwd, sample_trace_rev, cutof
               compress          = FALSE,
               compression_level = NA,
               selection         = "all")
-  } else {
+  } else { #to cover negative controls
     writeLines(paste(sample_trace_fwd,qc_report_fwd[1],
                 qc_report_fwd[2],qc_report_fwd[3],'NA',
                 'NA','NA',sep=","),file_logger)

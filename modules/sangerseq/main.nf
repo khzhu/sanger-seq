@@ -5,7 +5,6 @@
 process SANGERSEQ_ANALYSER {
     tag "$sample"
     label 'process_medium'
-    //errorStrategy 'ignore'
 
     input:
     tuple val(sample), file(trace_files)
@@ -14,7 +13,7 @@ process SANGERSEQ_ANALYSER {
     path "versions.yml"             , emit: versions
 	
 
-    //Calculate tumor mutation burden per sample
+    //Generate contiguous consensus sequence and QC metrics
     script:
     def batch_id   = params.batch_id ?: ""
     def trace_path = params.trace_path ?: ""

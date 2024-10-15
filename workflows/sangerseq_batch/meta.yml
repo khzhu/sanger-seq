@@ -4,10 +4,10 @@ description: |
 keywords:
   - rscript
   - Sanger sequencing
-  - Sanger trace file
+  - Trace or ab1 file
   - 16S rRNA gene
-  - electropherogram
-  - alignment and contig assembly
+  - Electropherogram or chromatogram
+  - Alignment and contig assembly
 components:
   - r/sangerseq
   - r/sangerAnalyseR
@@ -28,23 +28,23 @@ output:
         sample name
   - contig:
       type: file
-      description: assembled consensus reads
+      description: Assembled contiguous consensus reads
       pattern: "*.txt"
   - fasta:
       type: file
-      description: a text-based file that stores sequencing reads
+      description: Text-based files that stores sequencing reads
       pattern: "*.fa"
   - chromatogram:
       type: file
-      description: a two-dimensional plot with the ordinate axis giving signal strength
+      description: Two-dimensional plot with the ordinate axis giving signal strength
       pattern: "*.pdf"
   - metrics:
       type: file
-      description: QC metrics
+      description: Quality Control metrics
       pattern: "*.csv"
   - versions:
       type: file
-      description: File containing software versions
+      description: File containing software version
       pattern: "versions.yml"
 authors:
   - "@kelseyz"
