@@ -1,0 +1,48 @@
+name: "blastn_search"
+description: |
+  Basic Local Alignment Search Tool (BLAST) compares a query sequence to a database of sequences 
+  to identify regions of similarity.
+keywords:
+  - blast
+  - nucleotide sequence
+  - consensus
+  - fasta
+  - html
+  - BLAST archive format
+components:
+  - ncbi/blast
+  - python
+input:
+  - sample:
+      type: val
+      description: |
+        sample name
+  - fasta_file:
+      type: file
+      description: Path to input assembled contiguous consensus fasta file
+      pattern: "*.fa"
+output:
+  - sample:
+      type: val
+      description: |
+        sample name
+  - asn:
+      type: file
+      description: BLAST archive format
+      pattern: "*.asn"
+  - tsv:
+      type: file
+      description: Tabular with comment lines
+      pattern: "*.fa"
+  - html:
+      type: file
+      description: Blastn query results in HTML format
+      pattern: "*.html"
+  - versions:
+      type: file
+      description: File containing software version
+      pattern: "versions.yml"
+authors:
+  - "@kelseyz"
+maintainers:
+  - "@kelseyz"

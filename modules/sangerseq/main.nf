@@ -10,7 +10,8 @@ process SANGERSEQ_ANALYSER {
     tuple val(sample), file(trace_files)
 	
     output:
-    path "versions.yml"             , emit: versions
+    tuple val(sample), path("*consensus_sequence.fa"), emit: contig_fasta
+    path "versions.yml"                              , emit: versions
 	
 
     //Generate contiguous consensus sequence and QC metrics
@@ -18,12 +19,14 @@ process SANGERSEQ_ANALYSER {
     def batch_id   = params.batch_id ?: ""
     def trace_path = params.trace_path ?: ""
     """
-    Rscript ${baseDir}/bin/sangerseq_batch_analyse.R \
+    Rscript ${baseDir}/bin/sangerseq_batch_process.R \
          -p ${trace_path}/${batch_id} \
          -f ${trace_files[0]} \
          -r ${trace_files[1]} \
          -c ${params.trim_cutoff} \
-         -l ${params.min_seq_len}
+         -l ${params.min_seq_len} \
+         -d ${baseDir} \
+         -o ${params.output_dir}
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

@@ -26,22 +26,10 @@ output:
       type: val
       description: |
         sample name
-  - contig:
-      type: file
-      description: Assembled contiguous consensus reads
-      pattern: "*.txt"
-  - fasta:
+  - contig_fasta:
       type: file
       description: Text-based files that stores sequencing reads
       pattern: "*.fa"
-  - chromatogram:
-      type: file
-      description: Two-dimensional plot with the ordinate axis giving signal strength
-      pattern: "*.pdf"
-  - metrics:
-      type: file
-      description: Quality Control metrics
-      pattern: "*.csv"
   - versions:
       type: file
       description: File containing software version

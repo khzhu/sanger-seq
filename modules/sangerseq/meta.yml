@@ -26,11 +26,7 @@ output:
       type: val
       description: |
         sample name
-  - contig:
-      type: file
-      description: Assembled contiguous consensus reads
-      pattern: "*.txt"
-  - fasta:
+  - contig_fasta:
       type: file
       description: Text-based files that stores sequencing reads
       pattern: "*.fa"
