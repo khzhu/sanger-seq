@@ -11,11 +11,20 @@ an overlap needs to be established and a contiguous consensus sequence (“conti
 1. Extract ab1 files of the interest sequence (16S)
 2. Separate sense and antisense sequences in two distinct data collections
 3. Convert ab1 files to FASTQ to permit its use by other software tools
-4. Trim low quality ends of the sequences
-5. Compute the reverse-complement for the antisense sequence only
-6. Align sense and antisense sequences
-7. Obtain a consensus sequence for microbial nucleotide blast search
-8. Generate quality control metrics
+4. Remove the primers from the sequence
+5. Trim low quality ends of the sequences using trimmomatic’s sliding window method
+6. Compute the reverse-complement for the antisense sequence only
+7. Align sense and antisense sequences
+8. Assemble a contiguous sequence for microbial nucleotide BLAST search
+9. Generate quality control metrics
+10. Perform a BLAST to identify bacterial species based on 16S rRNA sequences
+
+## Trimming methods
+
+M2 is like trimmomatic’s sliding window method. The method will cut N bases off, if average coverage of quality
+for N bases is lower than the quality score (Q). M2CutoffQualityScore and M2SlidingWindowSize are
+two parameters that control M2 trimming. Their default values are “20” and “10” respectively.
+It cuts the read when the average quality of each 10-nt window falls below a quality score of 20.
 
 ## Software required:
 1. [Nextflow](https://www.nextflow.io/docs/latest/)
@@ -37,28 +46,39 @@ You will need to install a nextflow and to pull a docker image from Azure CR pri
 To run this pipeline, enter
 ```
 nextflow run main.nf
-    --batch_id "2024_07_10_2024-07-10-15-00-51"
-    --trace_path "~/workspace/projects/sanger_seq"
-    --trace_regex_suffix "2024-07-10-15-00-51_JO.ab1"
-    --output_dir "~/workspace/projects/sanger_seq/2024_07_10_2024-07-10-15-00-51_sanger_seq_output"
+        --batch_id 16s_test1
+        --trace_path /Users/kz347/workspace/data/Sanger-Seq-Results
+        --trace_regex_suffix 2024-10-23-14-21-48_sb.ab1
+        --output_dir /Users/kz347/workspace/data/Sanger-Seq-Results/16s_test1_sanger_seq_output
+        --blastn_db "rRNA_typestrains/16S_ribosomal_RNA"
+        -bg
 ```
 from the project root directory.
 ## Directory Structure
 ```
-sanger-seq
+sanger-seq/
 ├── README.md
+├── nextflow.config
 ├── bin
-│   └── sangerseq_batch_analyse.R
-├── docker
-│   ├── Dockerfile
-│   └── requirements.txt
+│   ├── alignment.R
+│   ├── chromatogram.R
+│   └── sangerseq_batch_process.R
+├── docker-image
+│   ├── Dockerfile
+│   └── requirements.txt
 ├── main.nf
 ├── modules
-│   └── sangerseq
-│       ├── main.nf
-│       └── meta.yml
-├── nextflow.config
+│   ├── blastn
+│   │   ├── main.nf
+│   │   └── meta.yml
+│   └── sangerseq
+│       ├── main.nf
+│       └── meta.yml
 └── workflows
+    ├── blastn_search
+    │   ├── main.nf
+    │   ├── meta.yml
+    │   └── nextflow.config
     └── sangerseq_batch
         ├── main.nf
         ├── meta.yml
