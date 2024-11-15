@@ -19,7 +19,7 @@ an overlap needs to be established and a contiguous consensus sequence (“conti
 9. Generate quality control metrics
 10. Perform a BLAST to identify bacterial species based on 16S rRNA sequences
 
-## Trimming methods
+## M2 trimming method
 
 M2 is like trimmomatic’s sliding window method. The method will cut N bases off, if average coverage of quality
 for N bases is lower than the quality score (Q). M2CutoffQualityScore and M2SlidingWindowSize are
@@ -47,9 +47,9 @@ To run this pipeline, enter
 ```
 nextflow run main.nf
         --batch_id 16s_test1
-        --trace_path /Users/kz347/workspace/data/Sanger-Seq-Results
+        --trace_path ~/workspace/data/Sanger-Seq-Results
         --trace_regex_suffix 2024-10-23-14-21-48_sb.ab1
-        --output_dir /Users/kz347/workspace/data/Sanger-Seq-Results/16s_test1_sanger_seq_output
+        --output_dir ~/workspace/data/Sanger-Seq-Results/16s_test1_sanger_seq_output
         --blastn_db "rRNA_typestrains/16S_ribosomal_RNA"
         -bg
 ```
