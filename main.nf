@@ -6,10 +6,9 @@ def checkParamList = [
     params.output_dir,
     params.trace_path,
     params.batch_id,
-    params.trace_regex_suffix,
-    params.blastn_db]
+    params.trace_regex_suffix]
 
-for (param in checkParamList) if (!param) error("Required option were not provided")
+for (param in checkParamList) if (!param) error("Required options were not provided")
 
 include { SANGERSEQ_BATCH } from './workflows/sangerseq_batch/main'
 include { BLASTN_SEARCH   } from './workflows/blastn_search/main'
@@ -20,13 +19,14 @@ include { BLASTN_SEARCH   } from './workflows/blastn_search/main'
 log.info """\
     SANGER SEQUENCING DATA PROCESSING - P I P E L I N E
     ===================================================
-    batch_id	       : ${params.batch_id}
-    trace_path         : ${params.trace_path}
-    trace_regex_suffix : ${params.trace_regex_suffix}
-    trim_cutoff        : ${params.trim_cutoff}
-    min_seq_len        : ${params.min_seq_len}
-    output_dir         : ${params.trace_path}
-    blastn_db          : ${params.blastn_db}
+    batch_id            : ${params.batch_id}
+    trace_path          : ${params.trace_path}
+    trace_regex_suffix  : ${params.trace_regex_suffix}
+    trim_cutoff         : ${params.trim_cutoff}
+    min_seq_len         : ${params.min_seq_len}
+    output_dir          : ${params.trace_path}
+    perc_identity       : ${params.perc_identity}
+    max_target_seqs     : ${params.max_target_seqs}
     """
     .stripIndent()
 

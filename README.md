@@ -37,6 +37,7 @@ R is a free software environment for statistical computing and graphics.
 sangeranalseR is an R package that provides fast, flexible, and reproducible workflows for assembling your sanger seuqencing data into contigs.
 5. [sangerseqR](https://github.com/jonathonthill/sangerseqR)
 sangerseqR is an R packagefor analyzing Sanger Sequencing data files in R, including reading .ab1 files, making basecalls and plotting chromatograms.
+6. [BLAST](https://blast.ncbi.nlm.nih.gov/Blast.cgi) Basic Local Alignment Search Tool finds regions of similarity between biological sequences. The program compares nucleotide or protein sequences to sequence databases and calculates the statistical significance.
 
 ## How to set up and run a workflow
 You will need to install a nextflow and to pull a docker image from Azure CR prior to running the workflow.

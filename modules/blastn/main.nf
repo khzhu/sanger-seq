@@ -13,10 +13,12 @@ process BLASTN_QUERY {
     path "versions.yml"     				, emit: versions
 
 	script:
+	def blastn_db = sample =~ /16S/? "rRNA_typestrains/16S_ribosomal_RNA":
+					sample =~ /ITS/? "rRNA_typestrains/ITS_RefSeq_Fungi":"nt"
 	"""
 	blastn \
-		-query ${contig_fasta} -db ${params.blastn_db} \
-        -remote \
+		-query ${contig_fasta} -remote \
+		-db ${blastn_db} \
 		-outfmt 11 -out ${sample}_blast.asn \
 		-evalue ${params.evalue} \
 		-perc_identity ${params.perc_identity} \

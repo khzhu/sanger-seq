@@ -62,7 +62,8 @@ get_qc_report <- function(parent_dir, output_dir, sample_trace,
                                         TrimmingMethod       = "M2",
                                         M1TrimmingCutoff     = NULL,
                                         M2CutoffQualityScore = cutoff,
-                                        M2SlidingWindowSize  = window_size)
+                                        M2SlidingWindowSize  = min(window_size,
+                                            nchar(sangerseq_read@primarySeqRaw)))
   sangerseq_call <- MakeBaseCalls(new_sanger_read, signalRatioCutoff = 0.25)
   report <- "@"(sangerseq_call, QualityReport)
   seq_length <- as.integer(report@rawSeqLength)
@@ -133,21 +134,12 @@ call_sangerseq <- function(parent_dir, output_dir, sample_trace_fwd, sample_trac
   file_logger <- file(paste(sample_dir, paste(sample_name,"qc_metrics.csv",sep="_"),sep="/"),"a")
   writeLines(paste("Trace File Name","Read Length","Mean QS","QS20+","Contig Length",
                    "Signal Strength","Mismatch%",sep=","),file_logger)
-  if (qc_report_fwd[1] > seq_len & qc_report_rev[1] > seq_len) {
-    writeLines(paste(sample_trace_fwd,qc_report_fwd[1],
+  writeLines(paste(sample_trace_fwd,qc_report_fwd[1],
                      qc_report_fwd[2],qc_report_fwd[3],nchar(contig_str),
                      qc_report_fwd[4],(1-match_rate),sep=","),file_logger)
-    writeLines(paste(sample_trace_rev,qc_report_rev[1],
+  writeLines(paste(sample_trace_rev,qc_report_rev[1],
                      qc_report_rev[2],qc_report_rev[3],nchar(contig_str),
                      qc_report_rev[4],(1-match_rate),sep=","),file_logger)
-  } else { # cover a negative control case
-    writeLines(paste(sample_trace_fwd,qc_report_fwd[1],
-                     qc_report_fwd[2],qc_report_fwd[3],'NA',
-                     'NA','NA',sep=","),file_logger)
-    writeLines(paste(sample_trace_rev,qc_report_rev[1],
-                     qc_report_rev[2],qc_report_rev[3],'NA',
-                     'NA','NA',sep=","),file_logger)
-  }
   close(file_logger)
 }
 

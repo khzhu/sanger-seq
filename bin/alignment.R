@@ -40,7 +40,8 @@ process_sanger_trace <- function( input_trace,
                                         TrimmingMethod       = "M2",
                                         M1TrimmingCutoff     = NULL,
                                         M2CutoffQualityScore = cutoff_qs,
-                                        M2SlidingWindowSize  = sliding_window_size)
+                                        M2SlidingWindowSize  = min(sliding_window_size,
+                                                  nchar(sangerseq_read@primarySeqRaw)))
 
   sangerseq_call <- MakeBaseCalls(new_sanger_read, 
                                   signalRatioCutoff = signal_ratio_cutoff)
