@@ -51,7 +51,6 @@ nextflow run main.nf
         --trace_path ~/workspace/data/Sanger-Seq-Results
         --trace_regex_suffix 2024-10-23-14-21-48_sb.ab1
         --output_dir ~/workspace/data/Sanger-Seq-Results/16s_test1_sanger_seq_output
-        --blastn_db "rRNA_typestrains/16S_ribosomal_RNA"
         -bg
 ```
 from the project root directory.
