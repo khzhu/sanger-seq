@@ -4,7 +4,8 @@ FROM rocker/r-ver:4.4.1
 RUN apt-get update && \
     apt-get install -y \
     python3 \
-    python3-pip
+    python3-pip \
+    poppler-utils
 
 # Set working directory
 WORKDIR /app

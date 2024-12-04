@@ -10,8 +10,16 @@ process SANGERSEQ_ANALYSER {
     tuple val(sample), file(trace_files)
 	
     output:
-    tuple val(sample), path("*consensus_sequence.fa"), emit: contig_fasta
-    path "versions.yml"                              , emit: versions
+    tuple val(sample), path("*_qc_metrics.csv")             , emit: qc_report
+    tuple val(sample), path("*consensus_sequence.fa")       , emit: contig_fasta
+    tuple val(sample), path("*consensus_sequence.txt")      , emit: contig_seq
+    tuple val(sample), path("*forward_sequence.txt")        , emit: fwd_seq
+    tuple val(sample), path("*reverse_sequence.txt")        , emit: rev_seq
+    tuple val(sample), path("*_F.chromatogram.pdf")         , emit: fwd_pherogram
+    tuple val(sample), path("*_R.chromatogram.pdf")         , emit: rev_pherogram
+    tuple val(sample), path("*_F.chromatogram_100bases.pdf"), emit: fwd_100bp_pherogram
+    tuple val(sample), path("*_R.chromatogram_100bases.pdf"), emit: rev_100bp_pherogram
+    path "versions.yml"                                     , emit: versions
 	
 
     //Generate contiguous consensus sequence and QC metrics

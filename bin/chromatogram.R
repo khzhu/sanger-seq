@@ -1,7 +1,7 @@
 pherogram <- function(obj, trim5=0, trim3=0, 
                          showcalls=c("primary", "secondary", "both", "none"), 
                          width=100, height=2, cex.mtext=0.8, cex.base=0.8, ylim=3, 
-                         filename=NULL, showtrim=FALSE, showhets=TRUE) {
+                         filename=NULL, showtrim=FALSE, showhets=TRUE,pdf=TRUE) {
   originalpar <- par(no.readonly=TRUE)
   showcalls <- showcalls[1]
   traces <- obj@traceMatrix

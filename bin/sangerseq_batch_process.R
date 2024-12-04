@@ -76,15 +76,23 @@ get_qc_report <- function(parent_dir, output_dir, sample_trace,
                           paste(sample_name,"_F.chromatogram.pdf",sep=""),
                           paste(sample_name,"_R.chromatogram.pdf",sep=""))
   pherogram(sangerseq_call, width = 100, height = 2, 
-            trim5 = ifelse(str_detect(as.character(sangerseq_call@primarySeqRaw), 
+            trim5 = ifelse(str_detect(as.character(sangerseq_call@primarySeqRaw),
                                       primer_fwd), nchar(primer_fwd), 
                            ifelse (str_detect(as.character(sangerseq_call@primarySeqRaw), 
                                               primer_rev), nchar(primer_rev), 0)),
-            trim3 = 0,
+            trim3 = report@rawSeqLength-report@trimmedFinishPos,
             cex.mtext = 0.5, cex.base = 0.5,
             showcalls = "both",
-            filename = file.path(output_dir, sample_name, pdf_file_name), 
+            filename = file.path(".", pdf_file_name),
             showtrim=TRUE, showhets=TRUE)
+  if ( seq_length >= 50 ) {
+    pherogram(sangerseq_call, width = 100, height = 2, trim5 = ifelse(seq_length > 50, 50, seq_len),
+                 trim3 = ifelse(seq_length-150 < 0, 0, seq_length-150),
+                 cex.mtext = 0.5, cex.base = 0.5,
+                 showcalls = "primary",
+                 filename = file.path(".", gsub("chromatogram",
+                                    "chromatogram_100bases",pdf_file_name)))
+  }
   # Output raw sequences to a FASTA file
   fasta_file_name <- ifelse(grepl("_F",sample_trace), 
                             paste(sample_name,"_F.raw.fa",sep=""),
@@ -112,17 +120,19 @@ call_sangerseq <- function(parent_dir, output_dir, sample_trace_fwd, sample_trac
                                   file.path(parent_dir, sample_trace_rev),
                                   qc_report_fwd[2], qc_report_rev[2],
                                   primer_fwd, primer_rev)
-  match_rate <- round(str_count(contig_str,"T|C|G|A")/nchar(contig_str),2)
-  print(paste("match rate",match_rate,sep=":"))
-  print(paste("mismatch rate",1-match_rate,sep=":"))
   
   # Output assembled contiguous consensus sequence to a TXT file
-  file_out <-file(paste(sample_dir,paste(sample_name,"consensus_sequence.txt",sep="_"),sep="/"))
-  writeLines(contig_str, file_out)
-  close(file_out)
+  fasta_suffix <- c("consensus", "forward","reverse")
+  match_rate = list()
+  for (i in 1:length(contig_str)) {
+    match_rate[[i]] <- round(str_count(contig_str[i],"T|C|G|A")/nchar(contig_str[i]),3)
+    file_out <-file(paste("./",paste(sample_name,fasta_suffix[i],"sequence.txt",sep="_"),sep="/"))
+    writeLines(contig_str[i], file_out)
+    close(file_out)
+  }
   
   # Save the consensus sequence as FASTA format for NCBI blast search
-  fasta_file_name <- paste(sample_name,"consensus_sequence.fa",sep="_")
+  fasta_file_name <- paste(unlist(strsplit(sample_name, "-"))[1],"consensus_sequence.fa",sep="_")
   writeXStringSet(DNAStringSet(c(contig_str)), 
                   filepath = file.path("./",fasta_file_name),
                   format = "fasta")
@@ -131,15 +141,15 @@ call_sangerseq <- function(parent_dir, output_dir, sample_trace_fwd, sample_trac
   # the .ab1 files need to be assembled, i.e., an overlap needs to be established 
   # and a contiguous consensus sequence (“contig”) needs to be generated.
   # output quality control metrics to a CSV
-  file_logger <- file(paste(sample_dir, paste(sample_name,"qc_metrics.csv",sep="_"),sep="/"),"a")
+  file_logger <- file(paste("./", paste(sample_name,"qc_metrics.csv",sep="_"),sep="/"),"a")
   writeLines(paste("Trace File Name","Read Length","Mean QS","QS20+","Contig Length",
                    "Signal Strength","Mismatch%",sep=","),file_logger)
   writeLines(paste(sample_trace_fwd,qc_report_fwd[1],
-                     qc_report_fwd[2],qc_report_fwd[3],nchar(contig_str),
-                     qc_report_fwd[4],(1-match_rate),sep=","),file_logger)
+                     qc_report_fwd[2],qc_report_fwd[3],nchar(contig_str[1]),
+                     qc_report_fwd[4],(1-match_rate[[2]]),sep=","),file_logger)
   writeLines(paste(sample_trace_rev,qc_report_rev[1],
-                     qc_report_rev[2],qc_report_rev[3],nchar(contig_str),
-                     qc_report_rev[4],(1-match_rate),sep=","),file_logger)
+                     qc_report_rev[2],qc_report_rev[3],nchar(contig_str[1]),
+                     qc_report_rev[4],(1-match_rate[[3]]),sep=","),file_logger)
   close(file_logger)
 }
 

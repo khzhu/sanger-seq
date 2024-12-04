@@ -82,4 +82,5 @@ get_consensus_seq <- function(input_trace_fwd,
     seq_rev <- as.character(aligned_sanger_seq[2])
     contig_str <- substr(seq_fwd, str_count(seq_fwd,"-")+1,nchar(seq_fwd)-str_count(seq_rev,"-"))
   }
+  c(contig_str, primary_seq_trim_fwd, primary_seq_trim_rev)
 }

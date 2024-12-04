@@ -15,10 +15,13 @@ process BLASTN_QUERY {
 	script:
 	def blastn_db = sample =~ /16S/? "rRNA_typestrains/16S_ribosomal_RNA":
 					sample =~ /ITS/? "rRNA_typestrains/ITS_RefSeq_Fungi":"nt"
+	def entrez_query = sample =~ /RpoB/? '-entrez_query "rpoB"':
+						sample =~ /Hsp65/? '-entrez_query "hsp65"' : ""
 	"""
 	blastn \
 		-query ${contig_fasta} -remote \
 		-db ${blastn_db} \
+		${entrez_query} \
 		-outfmt 11 -out ${sample}_blast.asn \
 		-evalue ${params.evalue} \
 		-perc_identity ${params.perc_identity} \
