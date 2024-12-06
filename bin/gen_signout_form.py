@@ -25,7 +25,7 @@ parser.add_argument('-o', '--output_path', type=str, dest='output_path',
                     required=False, default="/mnt",
                     help='Directory where Signout form write to')
 parser.add_argument('--share_point', type=str, dest='share_point', required=False,
-                    default= 'https://ynhhs.sharepoint.com.mcas.ms/sites/LaboratoryInformatics/Sanger',
+                    default= 'https://sharepoint.com/sites/LaboratoryInformatics/Sanger',
                     help='Laboratory Informatics Share Point')
 
 def create_element(name):
