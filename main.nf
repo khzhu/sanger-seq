@@ -24,7 +24,7 @@ log.info """\
     trace_regex_suffix  : ${params.trace_regex_suffix}
     trim_cutoff         : ${params.trim_cutoff}
     min_seq_len         : ${params.min_seq_len}
-    output_dir          : ${params.trace_path}
+    output_dir          : ${params.output_dir}
     perc_identity       : ${params.perc_identity}
     max_target_seqs     : ${params.max_target_seqs}
     """

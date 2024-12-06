@@ -1,0 +1,38 @@
+name: "signout_form"
+description: |
+  Generate clinical signout form using python-docx
+keywords:
+  - python
+  - pdf
+  - signout sheet
+components:
+  - python-docx
+  - poppler
+  - pdf2image
+  - pandas
+input:
+  - sample:
+      type: val
+      description: |
+        sample name
+  - html:
+      type: file
+      description: Blastn query results with the percent of identity in HTML format 
+      pattern: "*.html"
+output:
+  - sample:
+      type: val
+      description: |
+        sample name
+  - docx:
+      type: file
+      description: Signout template in a word format 
+      pattern: "*.docx"
+  - versions:
+      type: file
+      description: File containing software version
+      pattern: "versions.yml"
+authors:
+  - "@kelseyz"
+maintainers:
+  - "@kelseyz"

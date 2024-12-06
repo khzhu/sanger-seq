@@ -46,11 +46,11 @@ You will need to install a nextflow and to pull a docker image from Azure CR pri
 
 To run this pipeline, enter
 ```
-nextflow run main.nf
-        --batch_id 16s_test1
-        --trace_path ~/workspace/data/Sanger-Seq-Results
-        --trace_regex_suffix 2024-10-23-14-21-48_sb.ab1
-        --output_dir ~/workspace/data/Sanger-Seq-Results/16s_test1_sanger_seq_output
+nextflow run main.nf \
+        --batch_id 16s_test1 \
+        --trace_path ~/workspace/data/Sanger-Seq-Results \
+        --trace_regex_suffix 2024-10-23-14-21-48_sb.ab1 \
+        --output_dir ~/workspace/data/Sanger-Seq-Results/16s_test1_sanger_seq_output \
         -bg
 ```
 from the project root directory.
@@ -58,27 +58,35 @@ from the project root directory.
 ```
 sanger-seq/
 ├── README.md
-├── nextflow.config
 ├── bin
-│   ├── alignment.R
-│   ├── chromatogram.R
-│   └── sangerseq_batch_process.R
+│   ├── alignment.R
+│   ├── chromatogram.R
+│   ├── gen_signout_form.py
+│   ├── reform_blast_html.py
+│   └── sangerseq_batch_process.R
 ├── docker-image
-│   ├── Dockerfile
-│   └── requirements.txt
+│   ├── Dockerfile
+│   └── requirements.txt
 ├── main.nf
 ├── modules
-│   ├── blastn
-│   │   ├── main.nf
-│   │   └── meta.yml
-│   └── sangerseq
-│       ├── main.nf
-│       └── meta.yml
+│   ├── blast_html
+│   │   ├── main.nf
+│   │   └── meta.yml
+│   ├── blastn
+│   │   ├── main.nf
+│   │   └── meta.yml
+│   ├── sangerseq
+│   │   ├── main.nf
+│   │   └── meta.yml
+│   └── signout_form
+│       ├── main.nf
+│       └── meta.yml
+├── nextflow.config
 └── workflows
     ├── blastn_search
-    │   ├── main.nf
-    │   ├── meta.yml
-    │   └── nextflow.config
+    │   ├── main.nf
+    │   ├── meta.yml
+    │   └── nextflow.config
     └── sangerseq_batch
         ├── main.nf
         ├── meta.yml

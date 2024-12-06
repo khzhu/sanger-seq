@@ -143,7 +143,7 @@ call_sangerseq <- function(parent_dir, output_dir, sample_trace_fwd, sample_trac
   # output quality control metrics to a CSV
   file_logger <- file(paste("./", paste(sample_name,"qc_metrics.csv",sep="_"),sep="/"),"a")
   writeLines(paste("Trace File Name","Read Length","Mean QS","QS20+","Contig Length",
-                   "Signal Strength","Mismatch%",sep=","),file_logger)
+                   "Signal Strength","Mixed Base%",sep=","),file_logger)
   writeLines(paste(sample_trace_fwd,qc_report_fwd[1],
                      qc_report_fwd[2],qc_report_fwd[3],nchar(contig_str[1]),
                      qc_report_fwd[4],(1-match_rate[[2]]),sep=","),file_logger)
