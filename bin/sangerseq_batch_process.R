@@ -46,7 +46,7 @@ primer_rev <- opt$primer_rev
 get_qc_report <- function(parent_dir, output_dir, sample_trace, 
                           sample_name, cutoff=20, window_size=10) {
   input_trace <- file.path(parent_dir, sample_trace)
-  sangerseq_read <- SangerRead(readFeature = ifelse(grepl("_F",input_trace), 
+  sangerseq_read <- SangerRead(readFeature = ifelse(grepl("_F_",input_trace),
                                                     "Forward Read", "Reverse Read"),
                                readFileName          = input_trace,
                                geneticCode           = GENETIC_CODE,
@@ -72,7 +72,7 @@ get_qc_report <- function(parent_dir, output_dir, sample_trace,
   signal_strength <- round(mean(apply(sangerseq_call@peakAmpMatrixRaw[,c(1,2)], 1, max)),2)
   
   # Plot Chromatogram
-  pdf_file_name <- ifelse(grepl("_F",sample_trace), 
+  pdf_file_name <- ifelse(grepl("_F_",sample_trace),
                           paste(sample_name,"_F.chromatogram.pdf",sep=""),
                           paste(sample_name,"_R.chromatogram.pdf",sep=""))
   pherogram(sangerseq_call, width = 100, height = 2, 
@@ -97,10 +97,10 @@ get_qc_report <- function(parent_dir, output_dir, sample_trace,
                                     "chromatogram_100bases",pdf_file_name)), overwrite = TRUE)
   }
   # Output raw sequences to a FASTA file
-  fasta_file_name <- ifelse(grepl("_F",sample_trace), 
+  fasta_file_name <- ifelse(grepl("_F_",sample_trace),
                             paste(sample_name,"_F.raw.fa",sep=""),
                             paste(sample_name,"_R.raw.fa",sep=""))
-  writeXStringSet(DNAStringSet(c(sangerseq_call@primarySeqRaw)), 
+  writeXStringSet(DNAStringSet(c(sangerseq_call@primarySeqRaw)),
                   filepath = file.path(output_dir, sample_name, fasta_file_name),
                   format = "fasta")
   c(seq_length,mean_qs,qs_20plus,signal_strength)

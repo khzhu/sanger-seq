@@ -32,7 +32,7 @@ log.info """\
 
 workflow {
     ch_versions = Channel.empty()
-    sample_trace_ch = Channel.fromFilePairs("${params.trace_path}/${params.batch_id}/*_{F,R}*_${params.trace_regex_suffix}", 
+    sample_trace_ch = Channel.fromFilePairs("${params.trace_path}/${params.batch_id}/*_{F,R}_*_${params.trace_regex_suffix}",
                 checkIfExists:true)
     SANGERSEQ_BATCH ( sample_trace_ch )
     ch_versions = ch_versions.mix( SANGERSEQ_BATCH.out.versions )

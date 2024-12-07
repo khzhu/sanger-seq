@@ -453,7 +453,7 @@ create_seq_table('2. Reverse Sanger Sequence', reverse_fasta)
 try:
     blast_tab = doc.add_heading('BLAST Analysis of Patient Sequences', level=1)
     add_hyperlink(blast_tab, blast_html, " (View HTML Report)")
-    blast_df = pd.read_csv(blast_tsv, header=None, comment="#", sep="\t", nrows=25)
+    blast_df = pd.read_csv(blast_tsv, header=None, comment="#", sep="\t")
     blast_df.columns = ['Accession#\u00B9', 'Identity%\u00B2', 'Score\u00B3', 'Length', 'Evalue\u2075', 'Subject']
     blast_df['Evalue\u2075'] = blast_df['Evalue\u2075'].apply(lambda x: round(x, 3))
 

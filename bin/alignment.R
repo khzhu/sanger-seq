@@ -23,7 +23,7 @@ process_sanger_trace <- function( input_trace,
                                   base_num_per_row = 100,
                                   height_per_row=200, 
                                   signal_ratio_cutoff = 0.25) {
-  sangerseq_read <- SangerRead(readFeature = ifelse(grepl("_F",input_trace),
+  sangerseq_read <- SangerRead(readFeature = ifelse(grepl("_F_",input_trace),
                                                     "Forward Read", "Reverse Read"),
                                readFileName          = input_trace,
                                geneticCode           = GENETIC_CODE,
