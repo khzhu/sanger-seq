@@ -74,6 +74,10 @@ get_consensus_seq <- function(input_trace_fwd,
   if (qs_fwd < 20 & qs_rev > 20) {
     rev_comp_str <- as.character(reverseComplement(DNAString(primary_seq_trim_rev)))
     contig_str <- substr(rev_comp_str, nchar(primer_fwd)*2+1, nchar(rev_comp_str))
+  } else if (qs_fwd < 20 & qs_rev < 20 & qs_rev > qs_fwd) {
+    contig_str <- as.character(reverseComplement(DNAString(primary_seq_trim_rev)))
+  } else if (qs_fwd < 20 & qs_rev < 20 & qs_rev < qs_fwd) {
+    contig_str <- as.character(primary_seq_trim_fwd)
   } else {
     sanger_seq <- DNAStringSet(c(primary_seq_trim_fwd,
                     as.character(reverseComplement(DNAString(primary_seq_trim_rev)))))

@@ -28,9 +28,6 @@ def main():
     if acc_ver_dict != None:
         with open(html_in) as f, open(html_out,'w') as of:
             for line in f:
-                if line.startswith('Effective search space used'):
-                    of.write(line)
-                    break
                 if line.startswith("<b>BLASTN"):
                     of.write(line.replace("BLASTN","BLAST ®"))
                 elif "<b>Query=</b>" in line:
@@ -45,6 +42,10 @@ def main():
                     of.write("%s\n"%(newline + "</a>\t" + str(acc_ver_dict[m.group(1)])))
                 else:
                     of.write(line)
+    else:
+        with open(html_in) as f, open(html_out,'w') as of:
+            for line in f:
+                of.write(line)
 
 if __name__ == "__main__":
     main()

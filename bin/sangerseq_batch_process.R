@@ -86,12 +86,15 @@ get_qc_report <- function(parent_dir, output_dir, sample_trace,
             filename = file.path(".", pdf_file_name),
             showtrim=TRUE, showhets=TRUE)
   if ( seq_length >= 50 ) {
-    pherogram(sangerseq_call, width = 100, height = 2, trim5 = ifelse(seq_length > 50, 50, seq_len),
+    pherogram(sangerseq_call, width = 100, height = 2, trim5 = ifelse(seq_length > 50, 50, seq_length),
                  trim3 = ifelse(seq_length-150 < 0, 0, seq_length-150),
                  cex.mtext = 0.5, cex.base = 0.5,
                  showcalls = "primary",
                  filename = file.path(".", gsub("chromatogram",
                                     "chromatogram_100bases",pdf_file_name)))
+  } else {
+    file.copy(file.path(".", pdf_file_name), file.path(".", gsub("chromatogram",
+                                    "chromatogram_100bases",pdf_file_name)), overwrite = TRUE)
   }
   # Output raw sequences to a FASTA file
   fasta_file_name <- ifelse(grepl("_F",sample_trace), 
@@ -133,7 +136,7 @@ call_sangerseq <- function(parent_dir, output_dir, sample_trace_fwd, sample_trac
   
   # Save the consensus sequence as FASTA format for NCBI blast search
   fasta_file_name <- paste(unlist(strsplit(sample_name, "-"))[1],"consensus_sequence.fa",sep="_")
-  writeXStringSet(DNAStringSet(c(contig_str)), 
+  writeXStringSet(DNAStringSet(c(contig_str[1])),
                   filepath = file.path("./",fasta_file_name),
                   format = "fasta")
   
