@@ -15,7 +15,7 @@ import argparse
 import os
 from datetime import datetime
 
-parser = argparse.ArgumentParser(description='Generate run report for a batch.')
+parser = argparse.ArgumentParser(description='Generate summary report for a Sanger sequencing run.')
 parser.add_argument('-b', '--batch_id', type=str, dest='batch_id', required=True,
                     help='Name of a specimen')
 parser.add_argument('-i', '--input_path', type=str, dest='input_path',
@@ -23,15 +23,15 @@ parser.add_argument('-i', '--input_path', type=str, dest='input_path',
                     help='Path to SangerSeq analysis results')
 parser.add_argument('-o', '--output_path', type=str, dest='output_path',
                     required=False, default="/mnt",
-                    help='Directory where Signout form write to')
+                    help='Directory where summary report write to')
 parser.add_argument('-p', '--positive_control', type=str, dest='positive_control',
                     required=False, default="/mnt",
-                    help='Directory where Signout form write to')
+                    help='Positive control suffix')
 parser.add_argument('-t', '--sample_type', type=str, dest='sample_type',
                     required=False, default="/mnt",
-                    help='Directory where Signout form write to')
+                    help='Sample type')
 parser.add_argument('--share_point', type=str, dest='share_point', required=False,
-                    default= 'https://ynhhs.sharepoint.com.mcas.ms/sites/LaboratoryInformatics/Sanger',
+                    default= 'https://sharepoint.com.mcas.ms/sites/LaboratoryInformatics/Sanger',
                     help='Laboratory Informatics Share Point')
 
 def create_element(name):
