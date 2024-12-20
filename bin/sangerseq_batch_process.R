@@ -29,9 +29,9 @@ option_list = list(
               help="Cutoff quality score for trimming"),
   make_option(c("-l", "--seq_len"), type="integer", default=50, 
               help="Minimum sequence length for consensus reads"),
-  make_option(c("-a", "--primer_fwd"), type="character", default="AGAGTTTGATCMTGGCTCAG", 
+  make_option(c("-a", "--primer_fwd"), type="character", default="GAGTTTGATCATGGCTCAG",
               help="forwad primer"),
-  make_option(c("-b", "--primer_rev"), type="character", default="ACCAGGGTATCTAATCC", 
+  make_option(c("-b", "--primer_rev"), type="character", default="ACCAGGGTATCTAATCC",
               help="reverse primer")
 ); 
 
@@ -51,19 +51,20 @@ get_qc_report <- function(parent_dir, output_dir, sample_trace,
                                readFileName          = input_trace,
                                geneticCode           = GENETIC_CODE,
                                TrimmingMethod        = "M1",
-                               M1TrimmingCutoff      = 0.01,
+                               M1TrimmingCutoff      = 0.1,
                                M2CutoffQualityScore  = NULL,
                                M2SlidingWindowSize   = NULL,
                                baseNumPerRow         = 100,
                                heightPerRow          = 200,
                                signalRatioCutoff     = 0.25,
                                showTrimmed           = TRUE)
+
   new_sanger_read <- updateQualityParam(sangerseq_read,
                                         TrimmingMethod       = "M2",
                                         M1TrimmingCutoff     = NULL,
                                         M2CutoffQualityScore = cutoff,
                                         M2SlidingWindowSize  = min(window_size,
-                                            nchar(sangerseq_read@primarySeqRaw)))
+                                            nchar(sangerseq_read@primarySeq)))
   sangerseq_call <- MakeBaseCalls(new_sanger_read, signalRatioCutoff = 0.25)
   report <- "@"(sangerseq_call, QualityReport)
   seq_length <- as.integer(report@rawSeqLength)
@@ -76,10 +77,14 @@ get_qc_report <- function(parent_dir, output_dir, sample_trace,
                           paste(sample_name,"_F.chromatogram.pdf",sep=""),
                           paste(sample_name,"_R.chromatogram.pdf",sep=""))
   pherogram(sangerseq_call, width = 100, height = 2, 
-            trim5 = ifelse(str_detect(as.character(sangerseq_call@primarySeqRaw),
-                                      primer_fwd), nchar(primer_fwd), 
-                           ifelse (str_detect(as.character(sangerseq_call@primarySeqRaw), 
-                                              primer_rev), nchar(primer_rev), 0)),
+            trim5 = ifelse(str_detect(as.character(sangerseq_call@primarySeq),
+                                      primer_fwd),
+                           unlist(str_locate(pattern =primer_fwd,
+                                    as.character(sangerseq_call@primarySeq)))[2],
+                           ifelse (str_detect(as.character(sangerseq_call@primarySeq),
+                                              primer_rev),
+                          unlist(str_locate(pattern =primer_ref,
+                                  as.character(sangerseq_call@primarySeq)))[2], 0)),
             trim3 = report@rawSeqLength-report@trimmedFinishPos,
             cex.mtext = 0.5, cex.base = 0.5,
             showcalls = "both",
@@ -100,7 +105,7 @@ get_qc_report <- function(parent_dir, output_dir, sample_trace,
   fasta_file_name <- ifelse(grepl("_F_",sample_trace),
                             paste(sample_name,"_F.raw.fa",sep=""),
                             paste(sample_name,"_R.raw.fa",sep=""))
-  writeXStringSet(DNAStringSet(c(sangerseq_call@primarySeqRaw)),
+  writeXStringSet(DNAStringSet(c(sangerseq_call@primarySeq)),
                   filepath = file.path(output_dir, sample_name, fasta_file_name),
                   format = "fasta")
   c(seq_length,mean_qs,qs_20plus,signal_strength)
