@@ -65,9 +65,13 @@ get_consensus_seq <- function(input_trace_fwd,
     primary_seq_trim_fwd <- substr(primary_seq_raw_fwd,pos_fwd,
                                    sangerseq_call_fwd@QualityReport@trimmedFinishPos)
   } else {
-    primary_seq_trim_fwd <- substr(primary_seq_raw_fwd,
+    if (grepl("NFW",input_trace_fwd)) {
+      primary_seq_trim_fwd <- primary_seq_raw_fwd
+    } else {
+      primary_seq_trim_fwd <- substr(primary_seq_raw_fwd,
                                    sangerseq_call_fwd@QualityReport@trimmedStartPos,
                                    sangerseq_call_fwd@QualityReport@trimmedFinishPos)
+    }
   }
   
   if (str_detect(primary_seq_raw_rev, primer_rev)) {
@@ -76,9 +80,13 @@ get_consensus_seq <- function(input_trace_fwd,
     primary_seq_trim_rev <- substr(primary_seq_raw_rev,pos_rev,
                                    sangerseq_call_rev@QualityReport@trimmedFinishPos)
   } else {
-    primary_seq_trim_rev <- substr(primary_seq_raw_rev,
+    if (grepl("NFW",input_trace_rev)) {
+      primary_seq_raw_rev <- primary_seq_raw_rev
+    } else {
+      primary_seq_raw_rev <- substr(primary_seq_raw_rev,
                                    sangerseq_call_rev@QualityReport@trimmedStartPos,
                                    sangerseq_call_rev@QualityReport@trimmedFinishPos)
+    }
   }
 
   if (qs_fwd < 20 & qs_rev >= 20 ) {
@@ -95,10 +103,12 @@ get_consensus_seq <- function(input_trace_fwd,
     end_pos <- str_count(substr(seq_rev, nchar(seq_rev)-40, nchar(seq_rev)),"-")
     contig_str <- substr(seq_fwd, start_pos+1,
                          nchar(seq_fwd)-end_pos)
-    for (i in 1:str_count(contig_str, "-")) {
-      offset <- unlist(str_locate(pattern = "-",contig_str))[1]
-      rev_char <- substr(seq_rev, start = offset+start_pos, stop = offset+start_pos)
-      substr(contig_str, start = offset, stop = offset) <- rev_char
+    if (str_count(contig_str, "-") > 0) {
+      for (i in 1:str_count(contig_str, "-")) {
+        offset <- unlist(str_locate(pattern = "-",contig_str))[1]
+        rev_char <- substr(seq_rev, start = offset+start_pos, stop = offset+start_pos)
+        substr(contig_str, start = offset, stop = offset) <- rev_char
+      }
     }
   }
   c(contig_str, primary_seq_trim_fwd, primary_seq_trim_rev)
